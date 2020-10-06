@@ -93,55 +93,6 @@ function drawBarChart(data) {
         .attr("class", "line")
         .attr("d", line);
 
-    // let focus = svg.append("g")
-    //     .attr("class", "focus")
-    //     .style("display", "none");
-    //
-    // focus.append("rect")
-    //     .attr("class", "tooltip")
-    //     .attr("width", 130)
-    //     .attr("height", 50)
-    //     .attr("x", 10)
-    //     .attr("y", -22)
-    //     .attr("rx", 4)
-    //     .attr("ry", 4);
-    //
-    // focus.append("text")
-    //     .attr("class", "tooltip-date")
-    //     .attr("x", 18)
-    //     .attr("y", -2);
-    //
-    // focus.append("text")
-    //     .attr("x", 18)
-    //     .attr("y", 18)
-    //     .text("Emission:");
-    //
-    // focus.append("text")
-    //     .attr("class", "tooltip-emission")
-    //     .attr("x", 90)
-    //     .attr("y", 18);
-    //
-    // g.append("rect")
-    //     .attr("class", "overlay")
-    //     .attr("width", width)
-    //     .attr("height", height)
-    //     .on("mouseover", function() { focus.style("display", null); })
-    //     .on("mouseout", function() { focus.style("display", "none"); })
-    //     .on("mousemove", mousemove);
-    //
-    // function mousemove(event,k) {
-    //     const x0 = x.invert(d3.pointer(event)[0]),
-    //         i = bisectDate(data, x0, 1),
-    //         d0 = data[i - 1],
-    //         d1 = data[i],
-    //         d = x0 - d0.Year > d1.Year - x0 ? d1 : d0;
-    //     let yearVal = x(d.Year)+ 110
-    //     let emissionVal = y(d["Emissions.Type.CO2"]) + 80
-    //     focus.attr("transform", "translate(" + yearVal + "," + emissionVal + ")");
-    //     focus.select(".tooltip-date").text("Year : " +dateFormatter(d.Year));
-    //     focus.select(".tooltip-emission").text(formatValue(d["Emissions.Type.CO2"]));
-    // }
-
     // Adding chart label
     g.append("text")
         .attr("class", "chart-label")
@@ -225,12 +176,7 @@ function drawBarChart(data) {
         svg.append('rect')
             .attr('class', 'overlay')
             .attr('width', width)
-            .attr('height', height)
-            .on('mouseover', () => focus.style('display', null))
-            .on('mouseout', () => focus.style('display', 'none'))
-            .on('mousemove', tipMove);
-
-
+            .attr('height', height);
 
         // make the overlay rectangle transparent,
         // so it only serves the purpose of detecting mouse events
@@ -254,58 +200,6 @@ function drawBarChart(data) {
             .style("opacity", 0.4)
             .style("stroke-width", '1px');
 
-
-
-
-        // 'stroke-dasharray': '3 3'
-
-        // function that adds tooltip on hover
-        function tipMove(event) {
-            // below code finds the date by bisecting and
-            // stores the x and y coordinate as variables
-            let x0 = x.invert(d3.pointer(event)[0]);
-            let i = bisectDate(data, x0, 1);
-            let d0 = data[i - 1];
-            let d1 = data[i];
-            let d = x0 - d0.Year > d1.Year - x0 ? d1 : d0;
-
-            // place the focus objects on the same path as the line
-            focus.attr('transform', `translate(${x(d.Year)}, ${y(d["Emissions.Type.CO2"])})`);
-
-            // position the x line
-            focus.select('line.x')
-                .attr('class', "lineX")
-                .attr('x1', 0)
-                .attr('x2', x(d.Year))
-                .attr('y1', 0)
-                .attr('y2', 0);
-
-            console.log(-x(d.Year))
-
-            // position the y line
-            focus.select('line.y')
-                .attr('class', "lineY")
-                .attr('x1', 0)
-                .attr('x2', 0)
-                .attr('y1', y(minVal))
-                .attr('y2', 0);
-
-            // position the text
-            focus.select('text').text(d["Emissions.Type.CO2"]).transition() // slowly fade in the tooltip
-                .duration(100)
-                .style("opacity", 1);
-
-            // focus.select('div')
-            //     .transition()
-            //     .duration(500)
-            //     .style("opacity", 0.9)
-            // div.html("Value: " + d["Emissions.Type.CO2"])
-
-            // show the circle on the path
-            focus.selectAll('.focus circle')
-                .style("opacity", 1)
-
-        };
 
     }
 
